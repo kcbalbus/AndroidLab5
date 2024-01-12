@@ -10,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.androidlab3.AppScreen
+import com.example.androidlab3.PhotoApp
 import com.example.androidlab5.ui.theme.AndroidLab5Theme
 
 class MainActivity : ComponentActivity() {
@@ -18,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AndroidLab5Theme {
                 // A surface container using the 'background' color from the theme
-                MainMenuScreen()
+                PhotoApp()
             }
         }
     }

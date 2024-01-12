@@ -1,4 +1,7 @@
 package com.example.androidlab5
 
-class PhotoState {
-}
+import android.net.Uri
+
+data class PhotoState (
+        val uri: Uri = Uri.EMPTY
+)
