@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -66,7 +67,7 @@ fun MainMenuScreen(photoViewModel: PhotoViewModel, photoState: PhotoState, onPho
             cameraMedia.launch(uri)
         }
         else {
-            Toast.makeText(context, "Nie przyznano dostępu", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.permission_denied, Toast.LENGTH_SHORT).show()
 
         }
     }
@@ -95,7 +96,7 @@ fun MainMenuScreen(photoViewModel: PhotoViewModel, photoState: PhotoState, onPho
                 modifier = Modifier.fillMaxSize()
             ) {
                 Text(
-                    text = "Wybierz zdjęcie z galerii",
+                    text = stringResource(R.string.choose_photo),
                     style = MaterialTheme.typography.titleLarge
                 )
             }
@@ -124,7 +125,7 @@ fun MainMenuScreen(photoViewModel: PhotoViewModel, photoState: PhotoState, onPho
                 modifier = Modifier.fillMaxSize()
             ) {
                 Text(
-                    text = "Zrób zdjęcie",
+                    text = stringResource(R.string.choose_camera),
                     style = MaterialTheme.typography.titleLarge
                 )
 

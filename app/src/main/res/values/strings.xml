@@ -5,4 +5,12 @@
     <string name="extract_text">Rozpoznanie Tekstu</string>
     <string name="find_objects">Rozpoznanie Obiektów</string>
     <string name="back_button">Powrót</string>
+    <string name="permission_denied">"Nie przyznano dostępu"</string>
+    <string name="choose_photo">"Wybierz zdjęcie z galerii"</string>
+    <string name="choose_camera">"Zrób zdjęcie" </string>
+    <string name="object_rec_object">"Obiekt" </string>
+    <string name="object_rec_proc">"Pewność" </string>
+    <string name="choose_text_rec">"Rozpoznaj tekst" </string>
+    <string name="choose_object_rec">"Rozpoznaj obiekty" </string>
+    <string name="recognized_text">"Rozpoznany tekst:" </string>
 </resources>

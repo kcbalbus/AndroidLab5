@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import coil.compose.rememberImagePainter
@@ -54,7 +55,7 @@ fun PhotoMenuScreen(photoViewModel: PhotoViewModel, photoState: PhotoState, navi
                 .fillMaxHeight(0.49f)
         ) {
             Text(
-                text = "Rozpoznaj tekst",
+                text = stringResource(R.string.choose_text_rec),
                 style = MaterialTheme.typography.titleLarge
             )
 
@@ -75,7 +76,7 @@ fun PhotoMenuScreen(photoViewModel: PhotoViewModel, photoState: PhotoState, navi
                 .fillMaxSize()
         ) {
             Text(
-                text = "Rozpoznaj obiekty",
+                text = stringResource(R.string.choose_object_rec),
                 style = MaterialTheme.typography.titleLarge
             )
 
