@@ -1,5 +1,6 @@
 package com.example.androidlab3
 
+import android.app.Application
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -29,9 +31,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.androidlab5.MainMenuScreen
+import com.example.androidlab5.ObjectRecognitionScreen
 import com.example.androidlab5.PhotoMenuScreen
 import com.example.androidlab5.PhotoViewModel
 import com.example.androidlab5.R
+import com.example.androidlab5.TextRecognitionScreen
 
 enum class AppScreen(@StringRes val title: Int) {
     UploadPhoto(title = R.string.upload_image),
@@ -99,7 +103,13 @@ fun PhotoApp(
                 MainMenuScreen(photoViewModel, photoState, {navController.navigate(AppScreen.PhotoMenu.name)})
             }
             composable(route = AppScreen.PhotoMenu.name) {
-                PhotoMenuScreen(photoViewModel, photoState)
+                PhotoMenuScreen(photoViewModel, photoState, {navController.navigate(AppScreen.PhotoText.name)}, {navController.navigate(AppScreen.PhotoObjects.name)})
+            }
+            composable(route = AppScreen.PhotoText.name) {
+                TextRecognitionScreen(photoViewModel, photoState)
+            }
+            composable(route = AppScreen.PhotoObjects.name) {
+                ObjectRecognitionScreen(photoViewModel, photoState)
             }
         }
     }

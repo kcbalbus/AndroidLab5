@@ -3,5 +3,6 @@ package com.example.androidlab5
 import android.net.Uri
 
 data class PhotoState (
-        val uri: Uri = Uri.EMPTY
+        val uri: Uri = Uri.EMPTY,
+        val recognizedText: String = ""
 )
