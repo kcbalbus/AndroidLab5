@@ -25,5 +25,6 @@ fun ObjectRecognitionScreen(photoViewModel: PhotoViewModel, photoState: PhotoSta
                 .fillMaxWidth()
                 .fillMaxHeight(0.6f)
         )
+        Text(text = photoState.recognizedObjects)
     }
 }

@@ -50,6 +50,7 @@ fun PhotoMenuScreen(photoViewModel: PhotoViewModel, photoState: PhotoState, navi
         Button(
             shape = RectangleShape,
             onClick = {
+                photoViewModel.objectsRecognition()
                 naviagteToObjectsRec()
             },
             modifier = Modifier

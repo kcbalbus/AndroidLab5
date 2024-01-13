@@ -6,8 +6,12 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.label.ImageLabel
+import com.google.mlkit.vision.label.ImageLabeling
+import com.google.mlkit.vision.label.defaults.ImageLabelerOptions
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,8 +41,17 @@ class PhotoViewModel(application: Application) : ViewModel() {
         }
     }
 
+    fun updateRecognizedObjects (text: String) {
+
+        _photoState.update { currentState ->
+            currentState.copy(
+                recognizedObjects = text
+            )
+        }
+    }
+
     fun textRecognition() {
-        val recognizer = TextRecognition.getClient()
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
         val image: InputImage
         try {
@@ -46,7 +59,9 @@ class PhotoViewModel(application: Application) : ViewModel() {
 
             val result = recognizer.process(image)
                 .addOnSuccessListener {text ->
-                    updateRecognizedText(text.text)
+                    Log.e("ObjectRecognition", text.text)
+                    processTextRecognition(text)
+                    Log.e("ObjectRecognition", text.text)
                 }
                 .addOnFailureListener { e ->
                     Log.e("TextRecognition", e.toString())
@@ -59,28 +74,56 @@ class PhotoViewModel(application: Application) : ViewModel() {
     }
 
     fun processTextRecognition(text: Text) {
-        {
-            val blocks: List<Text.TextBlock> = text.getTextBlocks()
-            if (blocks.size == 0) {
-                updateRecognizedText("Brak tekstu")
-            } else {
-                updateRecognizedText(text.text)
-/*
-                for (block in blocks) {
-                    val lines = block.lines
 
-                    for (line in lines) {
-                        val lineBoundingBox = RectF(line.boundingBox)
-                    }
-                }*/
-            }
-
+        Log.e("ObjectRecognition", text.text)
+        val blocks: List<Text.TextBlock> = text.getTextBlocks()
+        if (blocks.size == 0) {
+            updateRecognizedText("Brak tekstu")
+        } else {
+            updateRecognizedText(text.text)
         }
+
+
     }
 
 
-    fun ObjectsRecognition() {
-        //TODO
+    fun objectsRecognition() {
+        val labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS)
+
+        val image: InputImage
+        try {
+            image = InputImage.fromFilePath(appContext, photoState.value.uri)
+
+            val result = labeler.process(image)
+                .addOnSuccessListener {labels ->
+                    processObjectRecognition(labels)
+                }
+                .addOnFailureListener { e ->
+                    Log.e("ObjectRecognition", e.toString())
+                }
+
+        } catch (e: IOException) {
+            Log.e("ObjectRecognition", e.toString())
+            updateRecognizedObjects("Wystąpił błąd, spróbuj ponownie!")
+        }
+    }
+
+    fun processObjectRecognition(labels: List<ImageLabel>) {
+
+        if (labels.size == 0) {
+            updateRecognizedObjects("Brak obiektu")
+        } else {
+            var buffer = ""
+
+            for (label in labels){
+                buffer+=label.text + " - " + label.confidence + "/n"
+            }
+
+            updateRecognizedObjects(buffer)
+
+        }
+
+
     }
 
 

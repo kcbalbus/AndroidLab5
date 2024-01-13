@@ -4,5 +4,6 @@ import android.net.Uri
 
 data class PhotoState (
         val uri: Uri = Uri.EMPTY,
-        val recognizedText: String = ""
+        val recognizedText: String = "",
+        val recognizedObjects: String = ""
 )
