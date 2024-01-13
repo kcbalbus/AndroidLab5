@@ -19,7 +19,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AndroidLab5Theme {
-                // A surface container using the 'background' color from the theme
                 PhotoApp(PhotoViewModel(requireNotNull(this.application)))
             }
         }

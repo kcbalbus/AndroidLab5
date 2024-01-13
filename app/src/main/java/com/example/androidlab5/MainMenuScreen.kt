@@ -72,9 +72,16 @@ fun MainMenuScreen(photoViewModel: PhotoViewModel, photoState: PhotoState, onPho
     }
 
 
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(4.dp)
+                .background(Color.Gray)
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()

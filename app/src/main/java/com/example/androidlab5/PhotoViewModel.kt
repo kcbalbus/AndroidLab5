@@ -41,11 +41,11 @@ class PhotoViewModel(application: Application) : ViewModel() {
         }
     }
 
-    fun updateRecognizedObjects (text: String) {
+    fun updateRecognizedObjects (list: List<ImageLabel>) {
 
         _photoState.update { currentState ->
             currentState.copy(
-                recognizedObjects = text
+                recognizedObjects = list
             )
         }
     }
@@ -59,12 +59,11 @@ class PhotoViewModel(application: Application) : ViewModel() {
 
             val result = recognizer.process(image)
                 .addOnSuccessListener {text ->
-                    Log.e("ObjectRecognition", text.text)
                     processTextRecognition(text)
-                    Log.e("ObjectRecognition", text.text)
                 }
                 .addOnFailureListener { e ->
                     Log.e("TextRecognition", e.toString())
+                    updateRecognizedText("Wystąpił błąd, spróbuj ponownie!")
                 }
 
         } catch (e: IOException) {
@@ -75,12 +74,13 @@ class PhotoViewModel(application: Application) : ViewModel() {
 
     fun processTextRecognition(text: Text) {
 
-        Log.e("ObjectRecognition", text.text)
-        val blocks: List<Text.TextBlock> = text.getTextBlocks()
-        if (blocks.size == 0) {
+        val blocks: List<Text.TextBlock> = text.textBlocks
+        if (blocks.isEmpty()) {
             updateRecognizedText("Brak tekstu")
         } else {
-            updateRecognizedText(text.text)
+            val sortedBlocks = blocks.sortedBy { it.boundingBox?.top }
+            val sortedText = sortedBlocks.joinToString("\n") { it.text }
+            updateRecognizedText(sortedText)
         }
 
 
@@ -100,29 +100,18 @@ class PhotoViewModel(application: Application) : ViewModel() {
                 }
                 .addOnFailureListener { e ->
                     Log.e("ObjectRecognition", e.toString())
+                    updateRecognizedObjects(emptyList())
                 }
 
         } catch (e: IOException) {
             Log.e("ObjectRecognition", e.toString())
-            updateRecognizedObjects("Wystąpił błąd, spróbuj ponownie!")
+            updateRecognizedObjects(emptyList())
         }
     }
 
     fun processObjectRecognition(labels: List<ImageLabel>) {
 
-        if (labels.size == 0) {
-            updateRecognizedObjects("Brak obiektu")
-        } else {
-            var buffer = ""
-
-            for (label in labels){
-                buffer+=label.text + " - " + label.confidence + "/n"
-            }
-
-            updateRecognizedObjects(buffer)
-
-        }
-
+        updateRecognizedObjects(labels)
 
     }
 
